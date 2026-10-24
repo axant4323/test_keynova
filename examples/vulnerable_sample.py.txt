@@ -1,0 +1,43 @@
+"""
+TEST FIXTURE: Classical Cryptography Example (VULNERABLE)
+===========================================================
+Use this file to test Keynova's automated GitHub Actions CI Gate!
+
+HOW TO TEST A BLOCKED PULL REQUEST:
+1. Create a new branch:
+   git checkout -b test-vulnerable-crypto
+2. Copy this file into the service folder:
+   cp examples/vulnerable_sample_for_pr_testing.py service/legacy_auth.py
+3. Commit and push:
+   git add service/legacy_auth.py
+   git commit -m "feat: add legacy RSA authentication"
+   git push origin test-vulnerable-crypto
+4. Open a Pull Request on GitHub.
+5. Watch GitHub Actions automatically:
+   - Flag Harvest-Now-Decrypt-Later (HNDL) risk on RSA-2048 & ECC
+   - Fail the CI build (Exit code 1)
+   - Block the PR merge
+   - Generate and upload the CycloneDX 1.6 CBOM and SARIF report
+===========================================================
+"""
+
+from cryptography.hazmat.primitives.asymmetric import rsa, ec
+from cryptography.hazmat.primitives import hashes
+import hashlib
+
+
+class LegacyVulnerableService:
+    def __init__(self):
+        # HNDL VULNERABILITY: Classical asymmetric RSA-2048 vulnerable to Shor's algorithm
+        self.rsa_private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048
+        )
+        # HNDL VULNERABILITY: Classical Elliptic Curve SECP256R1 vulnerable to Shor's algorithm
+        self.ec_private_key = ec.generate_private_key(
+            ec.SECP256R1()
+        )
+
+    def insecure_hash(self, password: str) -> str:
+        # DEPRECATED HASH: MD5 is collision-broken
+        return hashlib.md5(password.encode()).hexdigest()

@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Keynova & CI reports
+reports/
+.keynova_cache/
+.keynova_engine/
+*.sarif
+cyclonedx-cbom.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
