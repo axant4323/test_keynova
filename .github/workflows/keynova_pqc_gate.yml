@@ -34,10 +34,8 @@ jobs:
             keynova-cache-${{ runner.os }}-
 
       - name: Clone Keynova Autonomous Security Engine
-        uses: actions/checkout@v4
-        with:
-          repository: ManviAnchan/Nexathon_Spark
-          path: ../keynova_engine
+        run: |
+          git clone --depth 1 https://github.com/ManviAnchan/Nexathon_Spark.git ../keynova_engine
 
       - name: Install Keynova Scanner Dependencies
         run: |
